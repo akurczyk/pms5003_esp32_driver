@@ -5,37 +5,37 @@ void pms_setup()
 	// Initializing UART interface
 	uart_config_t uart_config = {
 			.baud_rate = 9600,
-	        .data_bits = UART_DATA_8_BITS,
-	        .parity    = UART_PARITY_DISABLE,
-	        .stop_bits = UART_STOP_BITS_1,
-	        .flow_ctrl = UART_HW_FLOWCTRL_DISABLE
+			.data_bits = UART_DATA_8_BITS,
+			.parity	= UART_PARITY_DISABLE,
+			.stop_bits = UART_STOP_BITS_1,
+			.flow_ctrl = UART_HW_FLOWCTRL_DISABLE
 	};
 
 	uart_param_config(UART_NUM_1, &uart_config);
-    uart_set_pin(UART_NUM_1, PMS_TXD, PMS_RXD, PMS_RTS, PMS_CTS);
+	uart_set_pin(UART_NUM_1, PMS_TXD, PMS_RXD, PMS_RTS, PMS_CTS);
 	uart_driver_install(UART_NUM_1, PMS_UART_BUF_SIZE * 2, 0, 0, NULL, 0);
 
 	// Initializing GPIO pins
-    gpio_config_t io_conf;
-    io_conf.intr_type = GPIO_PIN_INTR_DISABLE;
-    io_conf.mode = GPIO_MODE_OUTPUT;
-    io_conf.pin_bit_mask = (1ULL << PMS_SET) | (1ULL << PMS_RESET) | (1ULL << PMS_MODE);
-    io_conf.pull_down_en = 0;
-    io_conf.pull_up_en = 0;
-    gpio_config(&io_conf);
+	gpio_config_t io_conf;
+	io_conf.intr_type = GPIO_PIN_INTR_DISABLE;
+	io_conf.mode = GPIO_MODE_OUTPUT;
+	io_conf.pin_bit_mask = (1ULL << PMS_SET) | (1ULL << PMS_RESET) | (1ULL << PMS_MODE);
+	io_conf.pull_down_en = 0;
+	io_conf.pull_up_en = 0;
+	gpio_config(&io_conf);
 
-    gpio_set_level(PMS_SET, 0);
-    gpio_set_level(PMS_RESET, 1);
-    gpio_set_level(PMS_MODE, 1);
+	gpio_set_level(PMS_SET, 0);
+	gpio_set_level(PMS_RESET, 1);
+	gpio_set_level(PMS_MODE, 1);
 }
 
 void pms_make_measurement(pms_measurement* reading)
 {
 	uint8_t* data = (uint8_t*) malloc(PMS_UART_BUF_SIZE);
 
-    gpio_set_level(PMS_SET, 1);
-    vTaskDelay(1000); // Wait for a second...
-    uart_flush(UART_NUM_1);
+	gpio_set_level(PMS_SET, 1);
+	vTaskDelay(1000); // Wait for a second...
+	uart_flush(UART_NUM_1);
 
 	pms_measurement current_reading;
 	pms_clear_measurement(reading);
@@ -52,7 +52,7 @@ void pms_make_measurement(pms_measurement* reading)
 	}
 	pms_div_measurement(reading, 10);
 
-    gpio_set_level(PMS_SET, 0);
+	gpio_set_level(PMS_SET, 0);
 }
 
 int pms_process_data(int len, uint8_t* data, pms_measurement* reading)
@@ -83,9 +83,9 @@ int pms_process_data(int len, uint8_t* data, pms_measurement* reading)
 
 void pms_print_measurement(pms_measurement* reading)
 {
-	printf("PM1.0 concentration in standard material:       %d ug/m^3\r\n", reading->pm1_0_std);
-	printf("PM2.5 concentration in standard material:       %d ug/m^3\r\n", reading->pm2_5_std);
-	printf("PM10  concentration in standard material:       %d ug/m^3\r\n", reading->pm10_std);
+	printf("PM1.0 concentration in standard material:	   %d ug/m^3\r\n", reading->pm1_0_std);
+	printf("PM2.5 concentration in standard material:	   %d ug/m^3\r\n", reading->pm2_5_std);
+	printf("PM10  concentration in standard material:	   %d ug/m^3\r\n", reading->pm10_std);
 	printf("PM1.0 concentration in atmospheric environment: %d ug/m^3\r\n", reading->pm1_0_atm);
 	printf("PM2.5 concentration in atmospheric environment: %d ug/m^3\r\n", reading->pm2_5_atm);
 	printf("PM10  concentration in atmospheric environment: %d ug/m^3\r\n", reading->pm10_atm);
