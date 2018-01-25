@@ -4,11 +4,11 @@ void pms_setup()
 {
 	// Initializing UART interface
 	uart_config_t uart_config = {
-			.baud_rate = 9600,
-			.data_bits = UART_DATA_8_BITS,
-			.parity	= UART_PARITY_DISABLE,
-			.stop_bits = UART_STOP_BITS_1,
-			.flow_ctrl = UART_HW_FLOWCTRL_DISABLE
+		.baud_rate = 9600,
+		.data_bits = UART_DATA_8_BITS,
+		.parity	= UART_PARITY_DISABLE,
+		.stop_bits = UART_STOP_BITS_1,
+		.flow_ctrl = UART_HW_FLOWCTRL_DISABLE
 	};
 
 	uart_param_config(UART_NUM_1, &uart_config);
@@ -83,9 +83,9 @@ int pms_process_data(int len, uint8_t* data, pms_measurement* reading)
 
 void pms_print_measurement(pms_measurement* reading)
 {
-	printf("PM1.0 concentration in standard material:	   %d ug/m^3\r\n", reading->pm1_0_std);
-	printf("PM2.5 concentration in standard material:	   %d ug/m^3\r\n", reading->pm2_5_std);
-	printf("PM10  concentration in standard material:	   %d ug/m^3\r\n", reading->pm10_std);
+	printf("PM1.0 concentration in standard material:       %d ug/m^3\r\n", reading->pm1_0_std);
+	printf("PM2.5 concentration in standard material:       %d ug/m^3\r\n", reading->pm2_5_std);
+	printf("PM10  concentration in standard material:       %d ug/m^3\r\n", reading->pm10_std);
 	printf("PM1.0 concentration in atmospheric environment: %d ug/m^3\r\n", reading->pm1_0_atm);
 	printf("PM2.5 concentration in atmospheric environment: %d ug/m^3\r\n", reading->pm2_5_atm);
 	printf("PM10  concentration in atmospheric environment: %d ug/m^3\r\n", reading->pm10_atm);
