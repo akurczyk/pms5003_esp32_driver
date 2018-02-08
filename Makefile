@@ -3,7 +3,7 @@
 # project subdirectory.
 #
 
-PROJECT_NAME := pms5003_driver
+PROJECT_NAME := pms5003_esp32_driver
 
 include $(IDF_PATH)/make/project.mk
 
