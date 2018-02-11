@@ -3,6 +3,11 @@
 #include "freertos/task.h"
 #include "pms5003.h"
 
+void delay_sec(int time)
+{
+    vTaskDelay(time * 1000 / portTICK_PERIOD_MS);
+}
+
 void app_main()
 {
     pms5003_config_t pms0 = {
@@ -22,6 +27,6 @@ void app_main()
         pms5003_make_measurement(&pms0, &reading);
         pms5003_print_measurement(&reading);
 
-        vTaskDelay(10 * 1000);
+        delay_sec(10);
     }
 }

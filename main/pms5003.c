@@ -34,7 +34,7 @@ void pms5003_make_measurement(pms5003_config_t* inst, pms5003_measurement_t* rea
     uint8_t* data = (uint8_t*) malloc(inst->uart_buffer_size);
 
     gpio_set_level(inst->set_pin, 1);
-    vTaskDelay(1000); // Wait for a second...
+    vTaskDelay(1000 / portTICK_PERIOD_MS); // Wait for a second...
     uart_flush(UART_NUM_1);
 
     pms5003_measurement_t current_reading;
